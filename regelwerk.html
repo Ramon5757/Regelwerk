@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Regelwerk</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: 'Inter', Arial, sans-serif;
+            background: #000000;
+            color: #e8e8e8;
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            line-height: 1.8;
+        }
+        
+        /* Top Navigation Bar */
+        .top-nav {
+            background: #111;
+            border-bottom: 2px solid #ffc700;
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 200;
+            box-shadow: 0 4px 10px rgba(255, 199, 0, 0.1);
+        }
+        
+        .top-nav-left {
+            display: flex;
+            gap: 50px;
+            align-items: center;
+        }
+        
+        .top-nav a {
+            color: #ffc700;
+            text-decoration: none;
+            font-size: 1em;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+        
+        .top-nav a:hover {
+            color: #fff;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+        
+        .search-icon {
+            cursor: pointer;
+            font-size: 1.5em;
+            color: #ffc700;
+            transition: all 0.3s;
+        }
+        
+        .search-icon:hover {
+            color: #fff;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+        
+        /* Search Bar */
+        .search-bar {
+            display: flex;
+            align-items: center;
+        }
+        
+        .search-input-container {
+            display: flex;
+            align-items: center;
+            margin-left: 30px;
+        }
+        
+        .search-input-container input {
+            padding: 10px 15px;
+            font-size: 0.95em;
+            background: rgba(255, 199, 0, 0.05);
+            border: 1px solid #ffc700;
+            border-radius: 6px;
+            color: #ffc700;
+            outline: none;
+            transition: all 0.3s;
+            width: 250px;
+        }
+        
+        .search-input-container input::placeholder {
+            color: rgba(255, 199, 0, 0.5);
+        }
+        
+        .search-input-container input:focus {
+            background: rgba(255, 199, 0, 0.1);
+            box-shadow: 0 0 15px rgba(255, 199, 0, 0.2);
+        }
+        
+        /* Header */
+        .header {
+            text-align: center;
+            padding: 80px 20px 60px;
+            border-bottom: 2px solid #ffc700;
+        }
+        
+        .header h1 {
+            font-size: 3.5em;
+            font-weight: bold;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+            color: #ffc700;
+            text-shadow: 0 0 20px rgba(255, 199, 0, 0.3), 0 0 10px rgba(255, 255, 255, 0.2);
+            text-transform: uppercase;
+            line-height: 1.2;
+        }
+        
+        .header h1 span {
+            display: block;
+            font-size: 1.2em;
+            color: #ffffff;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+        }
+        
+        .header-subtitle {
+            color: #aaa;
+            font-size: 1.1em;
+            margin-top: 20px;
+            line-height: 1.8;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        /* Content Pages */
+        .content {
+            display: none;
+        }
+        
+        .content.active {
+            display: block;
+        }
+        
+        /* Rules Section */
+        .rules-section {
+            margin-bottom: 60px;
+            padding-bottom: 40px;
+        }
+        
+        .section-title {
+            font-size: 2.2em;
+            color: #ffc700;
+            margin: 60px 0 40px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #ffc700;
+            text-shadow: 0 0 10px rgba(255, 199, 0, 0.15);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        .rule {
+            padding: 25px 0;
+            margin-bottom: 0;
+            border-radius: 0;
+            border-bottom: 1px solid rgba(255, 199, 0, 0.15);
+            transition: none;
+        }
+
+        .rule.show {
+            display: block;
+        }
+
+        .rule:hover {
+            background: transparent;
+            transform: none;
+            box-shadow: none;
+            padding-left: 0;
+            border-bottom: 1px solid rgba(255, 199, 0, 0.15);
+        }
+
+        .rule-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 12px;
+        }
+
+        .rule-number {
+            display: none;
+        }
+
+        .rule-title {
+            font-size: 1.2em;
+            font-weight: 700;
+            color: #ffc700;
+            text-transform: none;
+            letter-spacing: 0.5px;
+            text-shadow: 0 0 8px rgba(255, 199, 0, 0.1);
+        }
+
+        .rule-description {
+            color: #ddd;
+            line-height: 1.8;
+            margin-top: 10px;
+            font-size: 1.05em;
+            margin-left: 50px;
+        }
+        
+        /* Footer */
+        .footer {
+            background: #ffffff;
+            padding: 40px 20px;
+            text-align: center;
+            color: #666;
+            border-top: 3px solid #ffc700;
+            margin-top: 80px;
+        }
+        
+        .no-results {
+            text-align: center;
+            color: #666;
+            padding: 60px 20px;
+            font-size: 1.2em;
+        }
+        
+        @media (max-width: 768px) {
+            .top-nav {
+                flex-direction: column;
+                gap: 20px;
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 1.8em;
+            }
+            
+            .logo-banner img {
+                max-width: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Navigation -->
+    <div class="top-nav">
+        <div class="top-nav-left">
+            <a href="#" onclick="switchPage('regelwerk1'); return false;">Startseite</a>
+            <a href="#" onclick="switchPage('regelwerk2'); return false;">Regelwerk</a>
+            <a href="#" onclick="switchPage('regelwerk3'); return false;">Fraktion Regelwerk</a>
+        </div>
+        <div class="search-bar">
+            <div class="search-icon" onclick="toggleSearch()">🔍</div>
+            <div class="search-input-container" id="searchContainer" style="display: none;">
+                <input type="text" id="globalSearch" placeholder="Nach Regel suchen..."/>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Container -->
+    <div class="container">
+        <!-- Header -->
+        <div class="header" id="header-regelwerk1">
+            <h1>WILLKOMMEN AUF DEM <span style="color: #00a8ff;">Amour</span> REGELWERK</h1>
+            <div class="header-subtitle">
+                Schön, dass ihr euren Weg auf den Amour Roleplay Server gefunden habt.<br><br>
+                Wir freuen uns über jeden einzelnen von euch und stehen bei Fragen oder sonstigen Problemen jederzeit zur Verfügung. Sobald ihr auf den Server connected, akzeptiert ihr automatisch das gesamte Server-Regelwerk, sowie die Aufnahme eurer Stimme in jeglicher Form.<br><br>
+                Ebenfalls liegt es in eurer Verantwortung, euch über Neuerungen im Regelwerk zu informieren!
+            </div>
+        </div>
+        
+        <!-- PAGE 1: Regelwerk 1 (Startseite) -->
+        <div class="content active" id="regelwerk1">
+            <div style="padding: 60px 20px; text-align: center;">
+                <h2 style="font-size: 2.5em; color: #ffc700; margin-bottom: 40px; text-shadow: 0 0 8px rgba(255, 199, 0, 0.12);">PROJEKTINHABER</h2>
+                
+                <div style="display: flex; justify-content: center; gap: 60px; flex-wrap: wrap; max-width: 900px; margin: 0 auto; align-items: center;">
+                    <div style="flex: 0 1 300px;">
+                        <div style="background: rgba(255, 199, 0, 0.05); padding: 30px; border-radius: 8px; border: 2px solid rgba(255, 199, 0, 0.2); margin-bottom: 30px;">
+                            <h3 style="font-size: 1.8em; color: #ffc700; margin-bottom: 10px; text-shadow: 0 0 6px rgba(255, 199, 0, 0.1);">A | ! NDF</h3>
+                        </div>
+                        
+                        <div style="background: rgba(255, 199, 0, 0.05); padding: 30px; border-radius: 8px; border: 2px solid rgba(255, 199, 0, 0.2);">
+                            <h3 style="font-size: 1.8em; color: #ffc700; margin-bottom: 10px; text-shadow: 0 0 6px rgba(255, 199, 0, 0.1);">A | Pablito</h3>
+                        </div>
+                    </div>
+                    
+                    <div style="flex: 0 1 350px;">
+                        <img src="https://cdn.discordapp.com/attachments/1474141962406990048/1474191393638584462/rot_banner.gif?ex=699b9639&is=699a44b9&hm=40a0ff766d92032096bf9da68495737d210486a8161ec3623c392ae57b84eded" alt="Banner" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 0 15px rgba(255, 199, 0, 0.2);">
+                    </div>
+                </div>
+                
+                <div style="margin-top: 80px; padding-top: 40px; border-top: 2px solid rgba(255, 199, 0, 0.3); text-align: center;">
+                    <p style="font-size: 1.3em; color: #ffc700; font-weight: 300; letter-spacing: 2px; text-shadow: 0 0 8px rgba(255, 199, 0, 0.15); font-style: italic;">Made By Ramon</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- PAGE 2: Regelwerk 2 -->
+        <div class="content" id="regelwerk2">
+            <!-- Logo Banner -->
+            <div class="logo-banner">
+                <h1 style="font-size: 3em; color: #6600ff; text-shadow: 0 0 30px #6600ff; letter-spacing: 3px;">REGELWERK</h1>
+            </div>
+            
+            <div class="rules-section">
+                <h2 class="section-title">Allgemeine Regeln</h2>
+                
+                <div class="rule show">
+                    <div class="rule-header">
+                        <span class="rule-number">1</span>
+                        <span class="rule-title">§ A.1.0.0 - Leichen nicht wegbewegen</span>
+                    </div>
+                    <div class="rule-description">
+                        Leichen bzw. bewusstlose Personen dürfen nicht vom Ort wegbewegt werden. (Ausnahme: man bringt sie zu einem Medic oder einer Ansammlung von Bewusstlosen.)
+                    </div>
+                </div>
+                
+                <div class="rule show">
+                    <div class="rule-header">
+                        <span class="rule-number">2</span>
+                        <span class="rule-title">§ A.1.0.1 - Bewusstlose ausrauben verboten</span>
+                    </div>
+                    <div class="rule-description">
+                        Einer bewusstlosen Person darf nichts abgenommen werden!
+                    </div>
+                </div>
+                
+                <div class="rule show">
+                    <div class="rule-header">
+                        <span class="rule-number">3</span>
+                        <span class="rule-title">§ A.1.0.2 - New Life Regel</span>
+                    </div>
+                    <div class="rule-description">
+                        Nachdem man vom Medic wiederbelebt wurde, darf man sich an alles wieder erinnern! Aber man darf nicht mehr an der RP-Situation teilnehmen, wieder dort hinkommen oder wieder mit schießen, ansonsten ist eine erneute Teilnahme nicht erlaubt! (Ausnahme: Für Verhaftungen/ Gegenstände abziehen)
+                    </div>
+                </div>
+                
+                <div class="rule show">
+                    <div class="rule-header">
+                        <span class="rule-number">4</span>
+                        <span class="rule-title">§ A.1.0.3 - Fahrzeuge mit Reifenschaden</span>
+                    </div>
+                    <div class="rule-description">
+                        Fahrzeuge mit 2 platten Reifen dürfen nicht mehr gefahren werden, Motorräder schon ab einem Platten nicht mehr.
+                    </div>
+                </div>
+                
+                <div class="rule show">
+                    <div class="rule-header">
+                        <span class="rule-number">5</span>
+                        <span class="rule-title">§ A.1.0.4 - Fahrzeugüberschlag</span>
+                    </div>
+                    <div class="rule-description">
+                        Nachdem man sich mit einem Fahrzeug überschlagen hat (auf dem Dach landen), darf man nicht mehr weiterfahren.
+                    </div>
+                </div>
+                
+                <div class="rule show">
+                    <div class="rule-header">
+                        <span class="rule-number">6</span>
+                        <span class="rule-title">§ A.1.0.5 - Soundboard Spam</span>
+                    </div>
+                    <div class="rule-description">
+                        Das gezielte provozieren mit Soundboard, bzw. Soundbots ist verboten und zählt als Fail RP!
+                    </div>
+                </div>
+                
+                <div class="rule show">
+                    <div class="rule-header">
+                        <span class="rule-number">7</span>
+                        <span class="rule-title">§ A.1.0.6 - Fraktion Kleidung</span>
+                    </div>
+                    <div class="rule-description">
+                        Das Anziehen von Polizei / FIB / CIA/ Medic Kleidung / Westen ist verboten, es zählt als Trolling!
+                    </div>
+                </div>
+                
+                <div class="rule show">
+                    <div class="rule-header">
+                        <span class="rule-number">8</span>
+                        <span class="rule-title">§ A.1.0.7 - Drittpartei Hilfe</span>
+                    </div>
+                    <div class="rule-description">
+                        Zu Drittpartei zählt, wenn man als externe Person (die nicht zur Fraktion gehört), der Fraktion hilft und somit einen Vorteil für die Fraktion bringt.
+                    </div>
+                </div>
+                
+                <div class="rule show">
+                    <div class="rule-header">
+                        <span class="rule-number">9</span>
+                        <span class="rule-title">§ A.1.0.8 - Erfundene Spielfunktionen</span>
+                    </div>
+                    <div class="rule-description">
+                        Spielfunktionen im RP zu erfinden, die es gar nicht gibt, zählt als Fail-RP oder auch als Power-RP und sind somit verboten, ausgeschlossen hiervon ist, wenn man einer Person den Funk, Handy oder Munition abnimmt, ebenso für die Polizei wenn die Kabelbinder Anlegen für einen Gefängnisbus und Helikopter transport.
+                    </div>
+                </div>
+                
+                <div class="rule show">
+                    <div class="rule-header">
+                        <span class="rule-number">10</span>
+                        <span class="rule-title">§ A.1.0.9 - Bewusstlos reden</span>
+                    </div>
+                    <div class="rule-description">
+                        Bewusstlos zu reden ist verboten!
+                    </div>
+                </div>
+                
+                <div class="rule show">
+                    <div class="rule-header">
+                        <span class="rule-number">11</span>
+                        <span class="rule-title">§ A.1.1.0 - Fahrzeug Scammen</span>
+                    </div>
+                    <div class="rule-description">
+                        Das Scammen im Zusammenhang mit einem Autokauf bzw. -verkauf ist verboten! Ebenso das gezielte Scammen von neuen Spielern. (Hierzu zählt nicht normale Waren abziehen, wie Geld, Waffen und Items bei nicht neuen Spielern)
+                    </div>
+                </div>
+                
+                <div class="rule show">
+                    <div class="rule-header">
+                        <span class="rule-number">12</span>
+                        <span class="rule-title">§ A.1.1.1 - Support im RP</span>
+                    </div>
+                    <div class="rule-description">
+                        Das RP muss erst fertig gespielt werden, bevor man in den Support geht!
+                    </div>
+                </div>
+                
+                <div class="rule show">
+                    <div class="rule-header">
+                        <span class="rule-number">13</span>
+                        <span class="rule-title">§ A.1.1.2 - Waffenpreise</span>
+                    </div>
+                    <div class="rule-description">
+                        Langwaffen dürfen nicht billiger als der aktuelle Marktwert verkauft werden, ausgeschlossen sind hiervon Pumpguns!
+                    </div>
+                </div>
+                
+                <div class="rule show">
+                    <div class="rule-header">
+                        <span class="rule-number">14</span>
+                        <span class="rule-title">§ A.1.1.3 - Admin/Mod Ansprache</span>
+                    </div>
+                    <div class="rule-description">
+                        Wenn man einen Admin/ Mod in der Admin/ Mod Kleidung sieht, darf man ihn nicht ansprechen.
+                    </div>
+                </div>
+                
+                <div class="rule show">
+                    <div class="rule-header">
+                        <span class="rule-number">15</span>
+                        <span class="rule-title">§ A.1.1.4 - Duppen/Modding Meldepflicht</span>
+                    </div>
+                    <div class="rule-description">
+                        Solltest du jemanden kennen der duppt und/oder modded und du meldest es nicht im Support, wird es mit einem permanenten Ausschluss Bann bestraft werden.
+                    </div>
+                </div>
+                
+                <div class="rule show">
+                    <div class="rule-header">
+                        <span class="rule-number">16</span>
+                        <span class="rule-title">§ A.1.1.5 - Festnahmebedingungenl</span>
+                    </div>
+                    <div class="rule-description">
+                        Das Festnehmen von Personen ist nur möglich, wenn die Person die Hände hochnimmt oder getasert am Boden liegt.
+                    </div>
+                </div>
+                
+                <div class="rule show">
+                    <div class="rule-header">
+                        <span class="rule-number">17</span>
+                        <span class="rule-title">§ A.1.1.6 - Festhalte-Zeit</span>
+                    </div>
+                    <div class="rule-description">
+                        Eine Person darf man maximal 30 Minuten festhalten (Ausnahmen sind jegliche Art von Rauben und Inhaftierung von der Polizei.)
+                    </div>
+                </div>
+                
+                <div class="rule show">
+                    <div class="rule-header">
+                        <span class="rule-number">18</span>
+                        <span class="rule-title">§ A.1.1.7 - RP über Serverrestart</span>
+                    </div>
+                    <div class="rule-description">
+                        Wenn eine RP-Situation bis zu einem Server-Neustart dauert, muss diese nach dem Serverrestart weiter gespielt werden.
+                    </div>
+                </div>
+                
+                <div class="rule show">
+                    <div class="rule-header">
+                        <span class="rule-number">19</span>
+                        <span class="rule-title">§ A.1.1.8 - Bergfahrten</span>
+                    </div>
+                    <div class="rule-description">
+                        Man darf über Berge nur fahren, wenn man ein Motorrad hat oder ein SUV/Geländefahrzeug/Pickup. Es ist nicht erlaubt, auf einem Sportwagen Geländereifen zu montieren und danach über Berge zu fahren.
+                    </div>
+                </div>
+                
+                <div class="rule show">
+                    <div class="rule-header">
+                        <span class="rule-number">20</span>
+                        <span class="rule-title">§ A.1.1.9 - Maskenpflicht</span>
+                    </div>
+                    <div class="rule-description">
+                        Eine Person, die maskiert ist, darf in der Situation nicht erkannt werden. Wenn eine Person ihre Maske vor dir abzieht, dann darfst du die Person so lange erkennen, wie sie in deinem Blickfeld bleibt. Sobald du sie nicht mehr sehen kannst, darfst du die Person mit Maske nicht mehr erkennen.
+                    </div>
+                </div>
+                
+                <div class="rule show">
+                    <div class="rule-header">
+                        <span class="rule-number">21</span>
+                        <span class="rule-title">§ A.1.2.0 - Rachegrund</span>
+                    </div>
+                    <div class="rule-description">
+                        Rache darf nur mit einem starken RP-Hintergrund ausgeübt werden und muss innerhalb von 3 Tagen erfolgen. Danach gibt es keinen Rachegrund mehr.
+                    </div>
+                </div>
+                
+                <div class="rule show">
+                    <div class="rule-header">
+                        <span class="rule-number">22</span>
+                        <span class="rule-title">§ A.1.2.1 - Medic im Einsatz</span>
+                    </div>
+                    <div class="rule-description">
+                        Wenn ein Mediziner vor Ort ist und man selber es sieht oder weiß, darf man nicht E drücken, um sich ausbluten zu lassen.
+                    </div>
+                </div>
+                
+                <div class="rule show">
+                    <div class="rule-header">
+                        <span class="rule-number">23</span>
+                        <span class="rule-title">§ A.1.2.2 - Schusstraining/Sinnloses Abschießen</span>
+                    </div>
+                    <div class="rule-description">
+                        Schusstraining oder sonstiges ist verboten, ebenso das sinnlose Abstechen/ Abschießen! Ausnahme, wenn ein Teammitglied mit Mod- oder Adminrechten dabei ist und euch revived.
+                    </div>
+                </div>
+                
+                <div class="rule show">
+                    <div class="rule-header">
+                        <span class="rule-number">24</span>
+                        <span class="rule-title">§ A.1.2.3 - Fraktionswechsel</span>
+                    </div>
+                    <div class="rule-description">
+                        Man darf nur alle 3 Tage die Fraktion wechseln, sobald man zu einer Fraktion gehört, darf man direkt mit agieren. Ausnahme: Beitritt bei DRK.
+                    </div>
+                </div>
+                
+                <div class="rule show">
+                    <div class="rule-header">
+                        <span class="rule-number">25</span>
+                        <span class="rule-title">§ A.1.2.4 - Echtgeld Trading</span>
+                    </div>
+                    <div class="rule-description">
+                        Das Kaufen und Verkaufen von Spielinhalten (Geld, Fahrzeugen, etc.) ist untersagt, wenn Echtgeld im Deal einbezogen ist. Dazu zählen jegliche Abmachungen, welche in Bezug auf Echtgeld getroffen werden!
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- PAGE 3: Fraktion Regelwerk -->
+        <div class="content" id="regelwerk3">
+            <!-- Logo Banner -->
+            <div class="logo-banner">
+                <h1 style="font-size: 3em; color: #6600ff; text-shadow: 0 0 30px #6600ff; letter-spacing: 3px;">FRAKTION REGELWERK</h1>
+            </div>
+            <div class="rules-section">
+                <h2 class="section-title">Staatsfraktion</h2>
+                
+                <div class="rule show">
+                    <div class="rule-header">
+                        <span class="rule-number">1</span>
+                        <span class="rule-title">§ S.1.0.0 - Haft-Einheiten berechnen</span>
+                    </div>
+                    <div class="rule-description">
+                        Haft-Einheiten müssen jedes Mal sorgfältig ausgerechnet werden! Sollte dies ein Polizist oder ein Soldat nicht beachten, kann er bestraft werden. Ebenso ist es verboten, mehr Hafteinheiten zu geben, als der Katalog besagt.
+                    </div>
+                </div>
+                
+                <div class="rule show">
+                    <div class="rule-header">
+                        <span class="rule-number">2</span>
+                        <span class="rule-title">§ S.1.0.1 - Offene Akte und Beweis</span>
+                    </div>
+                    <div class="rule-description">
+                        Aufgrund einer offenen Akte, darf die Person bestraft oder festgenommen werden. Wenn diese Person jedoch mit einem Videoclip beweisen kann, dass sie deswegen schon mal im Gefängnis war, kann ein Support Fall eröffnet werden und die Situation aufgelöst werden.
+                    </div>
+                </div>
+                
+                <div class="rule show">
+                    <div class="rule-header">
+                        <span class="rule-number">3</span>
+                        <span class="rule-title">§ S.1.0.2 - Bußgelder über 2.000 $</span>
+                    </div>
+                    <div class="rule-description">
+                        Bußgelder dürfen nicht per Barzahlung angenommen werden, wenn der Gesamtbetrag über 2.000 $ beträgt.
+                    </div>
+                </div>
+                
+                <div class="rule show">
+                    <div class="rule-header">
+                        <span class="rule-number">4</span>
+                        <span class="rule-title">§ S.1.0.3 - Schwarzgeld Verbot</span>
+                    </div>
+                    <div class="rule-description">
+                        Wenn man als Polizist Schwarzgeld abnimmt, muss man das Geld in die Beweismittel Kammer legen und darf es nicht weitergeben oder sogar waschen! (Dies wird streng bestraft)
+                    </div>
+                </div>
+                
+                <div class="rule show">
+                    <div class="rule-header">
+                        <span class="rule-number">5</span>
+                        <span class="rule-title">§ S.1.0.4 - Beschlagnahme</span>
+                    </div>
+                    <div class="rule-description">
+                        Beschlagnahmte Sachen werden nicht rückerstattet, es sei denn, diese wurden nicht für illegale Aktivitäten verwendet.
+                    </div>
+                </div>
+                
+                <div class="rule show">
+                    <div class="rule-header">
+                        <span class="rule-number">6</span>
+                        <span class="rule-title">§ S.1.0.5 - Mehrere Raube</span>
+                    </div>
+                    <div class="rule-description">
+                        Wenn schon ein Raub gestartet wurde und ein neuer gestartet wird, darf man per /adlspd auffordern, dass der neue Raub abgebrochen wird, weil einer schon gestartet wurde. Genauso verhält es sich bei einem Autodiebstahl, dieser muss dann auch abgebrochen werden, wenn es angekündigt wird.
+                    </div>
+                </div>
+                
+                <div class="rule show">
+                    <div class="rule-header">
+                        <span class="rule-number">7</span>
+                        <span class="rule-title">§ S.1.0.6 - Dienstausrüstung außer Dienst</span>
+                    </div>
+                    <div class="rule-description">
+                        Wenn man als Polizist außerhalb des Dienstes ist, darf man seine gesamte Dienstausrüstung nicht mehr mit sich führen.
+                    </div>
+                </div>
+                
+                <div class="rule show">
+                    <div class="rule-header">
+                        <span class="rule-number">8</span>
+                        <span class="rule-title">§ S.1.0.7 - Fraktion verlassen</span>
+                    </div>
+                    <div class="rule-description">
+                        Wenn man das Polizei / LSMC verlässt, muss man den Job abgeben und darf diesen nicht mehr haben! Das zählt auch für Personen, die meistens nur noch außer Dienst sind!
+                    </div>
+                </div>
+            </div>
+            
+            <div class="rules-section">
+                <h2 class="section-title">Badfraktionen</h2>
+                
+                <div class="rule show">
+                    <div class="rule-header">
+                        <span class="rule-number">1</span>
+                        <span class="rule-title">§ F.1.0.4 - Maximal zwei Raube pro Tag</span>
+                    </div>
+                    <div class="rule-description">
+                        Jede Fraktion, inoffiziell und offiziell, darf maximal zwei Raube pro Tag durchführen, mit einem zeitlichen Abstand von mindestens 3 Stunden. Dazu zählen jegliche Arten von Räuben. (Wenn man bereits an 2 Räuben beteiligt war, darf man nicht mehr mitmachen, egal ob als Zivi oder Frak.)
+                    </div>
+                </div>
+                
+                <div class="rule show">
+                    <div class="rule-header">
+                        <span class="rule-number">2</span>
+                        <span class="rule-title">§ F.1.0.5 - Maximal 3 Bankraube pro Woche</span>
+                    </div>
+                    <div class="rule-description">
+                        Jede Fraktion, inoffiziell und offiziell, darf maximal 3 Mal pro Woche einen Bankraub starten!
+                    </div>
+                </div>
+                
+                <div class="rule show">
+                    <div class="rule-header">
+                        <span class="rule-number">3</span>
+                        <span class="rule-title">§ F.1.0.6 - Polizei stürmen</span>
+                    </div>
+                    <div class="rule-description">
+                        Die Polizei darf maximal 2 Mal pro Fraktion in der Woche mit einem RP-Hintergrund gestürmt werden!
+                    </div>
+                </div>
+                
+                <div class="rule show">
+                    <div class="rule-header">
+                        <span class="rule-number">4</span>
+                        <span class="rule-title">§ F.1.0.7 - Maximal 40 Personen</span>
+                    </div>
+                    <div class="rule-description">
+                        Es dürfen maximal 40 Personen in der Fraktion eingestellt werden und somit agieren.
+                    </div>
+                </div>
+                
+                <div class="rule show">
+                    <div class="rule-header">
+                        <span class="rule-number">5</span>
+                        <span class="rule-title">§ F.1.0.8 - Inoffizielle Gruppierungen</span>
+                    </div>
+                    <div class="rule-description">
+                        Eine inoffizielle Gruppierung darf nicht mit mehr als 4 Mitglieder aktiv in einer RP-Situation agieren.
+                    </div>
+                </div>
+                
+                <div class="rule show">
+                    <div class="rule-header">
+                        <span class="rule-number">6</span>
+                        <span class="rule-title">§ F.1.0.9 - Bündnis / Krieg beantragen</span>
+                    </div>
+                    <div class="rule-description">
+                        Fraktionen müssen bei der Fraktionsverwaltung ein Bündnis/ Krieg beantragen.
+                    </div>
+                </div>
+                
+                <div class="rule show">
+                    <div class="rule-header">
+                        <span class="rule-number">7</span>
+                        <span class="rule-title">§ F.1.1.0 - Bündnis Kleidung</span>
+                    </div>
+                    <div class="rule-description">
+                        Bei einem Bündnis müssen beide Fraktionen dieselbe Kleidung tragen beim Agieren.
+                    </div>
+                </div>
+                
+                <div class="rule show">
+                    <div class="rule-header">
+                        <span class="rule-number">8</span>
+                        <span class="rule-title">§ F.1.1.1 - Bündnis Gesamtpersonen</span>
+                    </div>
+                    <div class="rule-description">
+                        Bei einem Bündnis dürfen insgesamt 40 Personen zusammen agieren.
+                    </div>
+                </div>
+                
+                <div class="rule show">
+                    <div class="rule-header">
+                        <span class="rule-number">9</span>
+                        <span class="rule-title">§ F.1.1.2 - Fraktionskennzeichnung</span>
+                    </div>
+                    <div class="rule-description">
+                        Die Mitglieder von inoffiziellen und auch offiziellen Fraktionen müssen deutlich kenntlich sein, wenn sie als solche agieren, mindestens 50% müssen gleich sein (Farbe). Ebenso muss das Fahrzeug/ Flugzeug in der gleichen Farbe sein.
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="footer">
+            <p>© 2026 Regelwerk | Zuletzt aktualisiert: 22.02.2026</p>
+        </div>
+    </div>
+    
+    <script>
+        // Warte bis DOM geladen ist
+        document.addEventListener('DOMContentLoaded', function() {
+            // Seitenwechsel
+            window.switchPage = function(pageId) {
+                document.querySelectorAll('.content').forEach(content => {
+                    content.classList.remove('active');
+                });
+                document.getElementById(pageId).classList.add('active');
+                closeSearch();
+            }
+            
+            // Such-Input toggle
+            window.toggleSearch = function() {
+                const searchContainer = document.getElementById('searchContainer');
+                const searchInput = document.getElementById('globalSearch');
+                
+                if (searchContainer.style.display === 'none') {
+                    searchContainer.style.display = 'flex';
+                    searchInput.focus();
+                } else {
+                    searchContainer.style.display = 'none';
+                    searchInput.value = '';
+                    filterRules('');
+                }
+            }
+            
+            window.closeSearch = function() {
+                const searchContainer = document.getElementById('searchContainer');
+                const searchInput = document.getElementById('globalSearch');
+                searchContainer.style.display = 'none';
+                searchInput.value = '';
+                filterRules('');
+            }
+            
+            // Globale Suchfunktion
+            function filterRules(searchTerm) {
+                const allRules = document.querySelectorAll('.rule');
+                
+                allRules.forEach(rule => {
+                    const title = rule.querySelector('.rule-title')?.textContent.toLowerCase() || '';
+                    const description = rule.querySelector('.rule-description')?.textContent.toLowerCase() || '';
+                    
+                    if (title.includes(searchTerm) || description.includes(searchTerm) || searchTerm === '') {
+                        rule.classList.add('show');
+                        rule.style.display = 'block';
+                    } else {
+                        rule.classList.remove('show');
+                        rule.style.display = 'none';
+                    }
+                });
+            }
+            
+            // Search Input Event
+            const globalSearch = document.getElementById('globalSearch');
+            if (globalSearch) {
+                globalSearch.addEventListener('keyup', (e) => {
+                    const searchTerm = e.target.value.toLowerCase();
+                    filterRules(searchTerm);
+                    
+                    // Enter drücken = zur Regelwerk-Seite gehen
+                    if (e.key === 'Enter' && searchTerm.trim() !== '') {
+                        switchPage('regelwerk2');
+                    }
+                });
+            }
+            
+            // Schließen mit ESC
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    closeSearch();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
